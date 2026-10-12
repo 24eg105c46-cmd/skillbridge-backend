@@ -17,7 +17,8 @@ import java.util.Map;
 @CrossOrigin(origins = {
     "http://localhost:5173",
     "http://localhost:5174",
-    "https://skillbridge-frontend-cabyy3wl8-skill-bridge-bc15.vercel.app"
+    "https://skillbridge-frontend-cabyy3wl8-skill-bridge-bc15.vercel.app",
+    "https://skillbridge-frontend-blush-eight.vercel.app"
 })
 public class StudentController {
 
@@ -31,13 +32,11 @@ public class StudentController {
         this.studentRepository = studentRepository;
     }
 
-    // Register a new student
     @PostMapping("/register")
     public ResponseEntity<?> registerStudent(
             @RequestBody Student student) {
         try {
-            Student saved =
-                studentService.registerStudent(student);
+            Student saved = studentService.registerStudent(student);
 
             Map<String, Object> result = new HashMap<>();
             result.put("message", "Registration successful!");
@@ -45,9 +44,7 @@ public class StudentController {
             result.put("fullName", saved.getFullName());
             result.put("email", saved.getEmail());
 
-            return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(result);
+            return ResponseEntity.status(HttpStatus.CREATED).body(result);
 
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(
@@ -56,7 +53,6 @@ public class StudentController {
         }
     }
 
-    // Student login
     @PostMapping("/login")
     public ResponseEntity<?> loginStudent(
             @RequestBody Map<String, String> request) {
@@ -87,13 +83,12 @@ public class StudentController {
             return ResponseEntity.ok(result);
 
         } catch (IllegalArgumentException e) {
-            return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of("message", e.getMessage()));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                Map.of("message", e.getMessage())
+            );
         }
     }
 
-    // Get the complete student profile, including saved skills
     @GetMapping("/{id}")
     public ResponseEntity<?> getStudentProfile(
             @PathVariable Long id) {
@@ -107,8 +102,6 @@ public class StudentController {
                 profile.put("email", student.getEmail());
                 profile.put("department", student.getDepartment());
                 profile.put("studyYear", student.getStudyYear());
-
-                // Skills are loaded from the student_skills table
                 profile.put("skills", student.getSkills());
 
                 return ResponseEntity.ok(profile);
