@@ -16,7 +16,8 @@ import java.util.Map;
 @RequestMapping("/api/students")
 @CrossOrigin(origins = {
     "http://localhost:5173",
-    "http://localhost:5174"
+    "http://localhost:5174",
+    "https://skillbridge-frontend-cabyy3wl8-skill-bridge-bc15.vercel.app"
 })
 public class StudentController {
 
